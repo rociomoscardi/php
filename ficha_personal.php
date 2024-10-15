@@ -20,7 +20,7 @@
                 <table class="table table-hover border">
                     <tr>
                         <th>Fecha:</th>
-                        <td>14/10/2024</td>
+                        <td class=>14/10/2024</td>
                     </tr>
                 </table>
             </div>
