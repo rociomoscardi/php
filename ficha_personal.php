@@ -20,7 +20,26 @@
                 <table class="table table-hover border">
                     <tr>
                         <th>Fecha:</th>
-                        <td class=>14/10/2024</td>
+                        <td>
+                            <?php
+                            echo date("d/m/Y");
+                            ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Nombre y apellido:</th>
+                        <td>Rocío Moscardi</td>
+                    </tr>
+                    <tr>
+                        <th>Edad:</th>
+                        <td>21</td>
+                    </tr>
+                    <tr>
+                        <th>Peliculas favoritas:</th>
+                        <td>Karate Kid <br>
+                            La Ventana Indiscreta <br>
+                            E. T. <br>
+                        </td>
                     </tr>
                 </table>
             </div>
