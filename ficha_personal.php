@@ -37,8 +37,8 @@
                     <tr>
                         <th>Peliculas favoritas:</th>
                         <td>Karate Kid <br>
-                            La Ventana Indiscreta <br>
                             E. T. <br>
+                            Sueños de Libertad <br>
                         </td>
                     </tr>
                 </table>
