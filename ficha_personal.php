@@ -1,3 +1,15 @@
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting (E_ALL);
+
+date_default_timezone_set("America/Argentina/Buenos_Aires");
+
+$nombre = "Rocío Moscardi";
+$edad = 21;
+$aPeliculas = array("Karate Kid", "E. T.", "Sueños de Libertad");
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -28,17 +40,17 @@
                     </tr>
                     <tr>
                         <th>Nombre y apellido:</th>
-                        <td>Rocío Moscardi</td>
+                        <td><?php echo $nombre; ?> </td>
                     </tr>
                     <tr>
                         <th>Edad:</th>
-                        <td>21</td>
+                        <td><?php echo $edad; ?> </td>
                     </tr>
                     <tr>
                         <th>Peliculas favoritas:</th>
-                        <td>Karate Kid <br>
-                            E. T. <br>
-                            Sueños de Libertad <br>
+                        <td><?php echo $aPeliculas[0] ?> <br>
+                            <?php echo $aPeliculas[1] ?> <br>
+                            <?php echo $aPeliculas[2] ?> <br>
                         </td>
                     </tr>
                 </table>
