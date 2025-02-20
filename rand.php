@@ -23,7 +23,7 @@
 <br>
 
 <?php
-    if ($valor = 1 || $valor = 3 || $valor = 5) {
+    if ($valor == 1 || $valor == 3 || $valor == 5) {
     
         echo " El número " . $valor  . " es impar.";
 
