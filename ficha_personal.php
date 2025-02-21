@@ -7,7 +7,11 @@ date_default_timezone_set("America/Argentina/Buenos_Aires");
 
 $nombre = "Rocío Moscardi";
 $edad = 21;
-$aPeliculas = array("Karate Kid", "E. T.", "Sueños de Libertad");
+$aPeliculas = array(
+    "Karate Kid",
+    "E. T.",
+    "Sueños de Libertad"
+);
 ?>
 
 <!DOCTYPE html>
