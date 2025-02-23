@@ -3,12 +3,13 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-if ($_POST){
-    $usuario = $_POST["$txtUsuario"];
-    $clave = $_POST["$pswClave"];
+if ($_REQUEST){
+    $usuario =  $_REQUEST["txtUsuario"];
+    $clave =  $_REQUEST["pswClave"];
 
     if ($usuario != "" && $clave != ""){
         header("Location: acceso_confirmado.php");
+        ; 
     } else {
         $mensaje = "Válido para usuarios registrados.";
     }
