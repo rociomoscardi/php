@@ -47,7 +47,7 @@ if ($_POST){
                     </div>
                     <div>
                         <label for="pswClave">Clave:</label>
-                        <input type="password" name="pswClave" id="pswClave" class="form-control">
+                        <input type="password" name="pswClave" id="txtClave" class="form-control">
                     </div>
                     <div>
                         <button type="submit" name="btnEnviar" id="btnEnviar" class="btn btn-primary my-3">ENVIAR</button>
