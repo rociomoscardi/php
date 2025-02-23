@@ -3,6 +3,17 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+if ($_POST){
+    $usuario = $_POST["$txtUsuario"];
+    $clave = $_POST["$pswClave"];
+
+    if ($usuario != "" && $clave != ""){
+        header("Location: acceso_confirmado.php");
+    } else {
+        $mensaje = "Válido para usuarios registrados.";
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -24,8 +35,23 @@ error_reporting(E_ALL);
         </div>
         <div class="row">
             <div class="col-4">
+                <?php if (isset($mensaje)):  ?>
+                    <div class="alert alert-danger" role="alert">
+                        <?php echo $mensaje; ?>
+                    </div>
+                    <?php endif; ?>
                 <form action="" method="post">
-                    <label for=""></label>
+                    <div>
+                        <label for="txtUsuario">Usuario:</label>
+                        <input type="text" name="txtUsuario" id="txtUsuario" class="form-control">
+                    </div>
+                    <div>
+                        <label for="pswClave">Clave:</label>
+                        <input type="password" name="pswClave" id="pswClave" class="form-control">
+                    </div>
+                    <div>
+                        <button type="submit" name="btnEnviar" id="btnEnviar" class="btn btn-primary my-3">ENVIAR</button>
+                    </div>
                 </form>
             </div>
         </div>
