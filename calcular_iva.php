@@ -47,10 +47,10 @@ if ($_POST) {
                     <div class="pb-3">
                         <label for="lstIva">IVA:</label> <br>
                         <select name="lstIva" id="lstIva" class="form-control">
-                            <option value="21" selected>21</option>
-                            <option value="10.5">10.5</option>
-                            <option value="19">19</option>
-                            <option value="27">27</option>
+                            <option value="21" selected>21%</option>
+                            <option value="10.5">10.5%</option>
+                            <option value="19">19%</option>
+                            <option value="27">27%</option>
                         </select>
                     </div>
                     <div class="pb-3">
