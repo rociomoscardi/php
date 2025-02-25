@@ -31,10 +31,23 @@ if ($_POST){
     //actualiza el contenido de variable en session.
     $_SESSION["listadoClientes"] = $aClientes;
 
-    } else (isset ($_POST["btnEliminar"])){
+    }
+    
+    if (isset ($_POST["btnEliminar"])){
         session_destroy();
         $aClientes = array();
     }
+}
+
+if (isset($_GET["pos"])){
+    //recupero el dato que viene desde la query string via get:
+    $pos = $_GET["pos"];
+    //elimina la posición del array indicado:
+    unset($aClientes[$pos]);
+
+    //actualiza el contenido de variable en session.
+    $_SESSION["listadoClientes"] = $aClientes;
+    header("Location: clientes_session.php");
 }
 ?>
 
@@ -46,6 +59,7 @@ if ($_POST){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listado de clientes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 
 <body>
@@ -92,16 +106,19 @@ if ($_POST){
                             <th>DNI:</th>
                             <th>Télefono:</th>
                             <th>Edad:</th>
+                            <th>Eliminar</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                        foreach ($aClientes as $cliente): ?>
+                        foreach ($aClientes as $pos => $cliente) : //la clave $pos indica la posición, sub0, sub1, etc.
+                        ?>
                         <tr>
                             <td><?php echo $cliente["nombre"]?></td>
                             <td><?php echo $cliente["dni"]?></td>
                             <td><?php echo $cliente["telefono"]?></td>
                             <td><?php echo $cliente["edad"]?></td>
+                            <td><a href="clientes_session.php?pos=<?php echo $pos; ?>"><i class="bi bi-trash"></i></a></td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>
