@@ -19,25 +19,25 @@ if ($_POST) {
     $nombre = trim($_POST["txtNombre"]);
     $telefono = trim($_POST["txtTelefono"]);
     $correo = trim($_POST["txtCorreo"]);
-    $imagen = "";
+    $nombreImagen = "";
 
     //PARA EDITAR:
     if ($pos >= 0) {
         if ($_FILES["archivo"]["error"] === UPLOAD_ERR_OK) {
             $nombreAleatorio = date("Ymdhmsi");
-            $archivo_tmp = $_FILES["archivo"]["tmp_name"];
+            $archivo_tmp = $_FILES["archivo"]["tmp_name"]; //se define la url del archivo temporal
             $extension = strtolower(pathinfo($_FILES["archivo"]["name"], PATHINFO_EXTENSION));
             if ($extension == "jpg" || $extension == "jpeg" || $extension == "png") {
-                $imagen = "$nombreAleatorio.$extension";
-                move_uploaded_file($archivo_tmp, "imagenes/$imagen");
+                $nombreImagen = "$nombreAleatorio.$extension";
+                move_uploaded_file($archivo_tmp, "imagenes/$nombreImagen");
             }
             //eliminar la imagen anterior
             if ($aClientes[$pos]["imagen"] != "" && file_exists("imagenes/" . $aClientes[$pos]["imagen"])) {
                 unlink("imagenes/" . $aClientes[$pos]["imagen"]);
             }
         } else {
-            //mostrar la $imagen que teniamos antes
-            $imagen = $aClientes[$pos]["imagen"];
+            //mantener el $nombreImagen que teniamos antes
+            $nombreImagen = $aClientes[$pos]["imagen"];
         }
 
         //actualizar
@@ -46,29 +46,27 @@ if ($_POST) {
             "nombre" => $nombre,
             "telefono" => $telefono,
             "correo" => $correo,
-            "imagen" => $imagen,
+            "imagen" => $nombreImagen,
         );
-} else {
-    if ($_FILES["archivo"]["error"] === UPLOAD_ERR_OK) {
-        $nombreAleatorio = date("Ymdhmsi");
-        $archivo_tmp = $_FILES["archivo"]["tmp_name"];
-        $extension = strtolower(pathinfo($_FILES["archivo"]["name"], PATHINFO_EXTENSION));
-        if ($extension == "jpg" || $extension == "jpeg" || $extension == "png") {
-            $imagen = "$nombreAleatorio.$extension";
-            move_uploaded_file($archivo_tmp, "imagenes/$imagen");
+    } else {
+        if ($_FILES["archivo"]["error"] === UPLOAD_ERR_OK) {
+            $nombreAleatorio = date("Ymdhmsi");
+            $archivo_tmp = $_FILES["archivo"]["tmp_name"]; //se define la url del archivo temporal
+            $extension = strtolower(pathinfo($_FILES["archivo"]["name"], PATHINFO_EXTENSION));
+            if ($extension == "jpg" || $extension == "jpeg" || $extension == "png") {
+                $nombreImagen = "$nombreAleatorio.$extension";
+                move_uploaded_file($archivo_tmp, "imagenes/$nombreImagen");
+            }
         }
-
         //insertar
         $aClientes[] = array(
             "dni" => $dni,
             "nombre" => $nombre,
             "telefono" => $telefono,
             "correo" => $correo,
-            "imagen" => $imagen,
+            "imagen" => $nombreImagen,
         );
     }
-}
-
 
     //convertir el array de clientes a jsonClientes
     $jsonClientes = json_encode($aClientes);
@@ -77,9 +75,7 @@ if ($_POST) {
     file_put_contents("archivo.txt", $jsonClientes);
 }
 
-
-
-
+//PARA ELIMINAR:
 if (isset($_GET["do"]) && $_GET["do"] == "eliminar") {
     //recupero el dato que viene desde la query string via get:
     $pos = $_GET["pos"];
@@ -92,7 +88,6 @@ if (isset($_GET["do"]) && $_GET["do"] == "eliminar") {
     //almacenar el json en el archivo
     file_put_contents("archivo.txt", $jsonClientes);
 
-    
     header("Location: index.php");
 }
 ?>
@@ -140,6 +135,7 @@ if (isset($_GET["do"]) && $_GET["do"] == "eliminar") {
                     </div>
                     <div>
                         <button type="submit" class="btn btn-primary">Guardar</button>
+                        <a href="index.php" class="btn btn-danger my-2">Nuevo</a>
                     </div>
                 </form>
             </div>
@@ -159,8 +155,8 @@ if (isset($_GET["do"]) && $_GET["do"] == "eliminar") {
 
                             <tr>
                                 <td>
-                                    <?php if ($cliente["imagen"] && $cliente["imagen"] != "") : ?>
-                                        <img src="imagenes/<?php echo $cliente["imagen"]; ?>" class="img-thumbnail">
+                                    <?php if ($cliente["imagen"] != ""): ?>
+                                        <img src="imagenes/<?php echo $cliente["imagen"]; ?>" class="img-thumbnail" alt="">
                                     <?php endif; ?>
                                 </td>
                                 <td><?php echo $cliente["dni"] ?></td>
