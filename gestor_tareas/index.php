@@ -3,6 +3,63 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+//preguntar si existe el archivo
+if (file_exists("tareas.txt")) {
+    //lo leemos y almacenamos el contenido en jsonClientes
+    $jsonTareas = file_get_contents("tareas.txt");
+    //convertir jsonClientes en un array llamado aClientes
+    $aTareas = json_decode($jsonTareas, true);
+} else {
+    $aTareas = array();
+}
+
+$pos = isset($_GET["pos"]) && $_GET["pos"] >= 0 ? $_GET["pos"] : ""; //lo del 0 es para un control de la url de la página y el if ternario es para inicializarlo en vacío la primera vez.
+if($_POST){
+    $prioridad = $_POST["lstPrioridad"];
+    $usuario = $_POST["lstUsuario"];
+    $estado = $_POST["lstEstado"];
+    $titulo = $_POST["txtTitulo"];
+    $descripcion = $_POST["txtDescripcion"];
+    //$id = $_POST["pos"];
+    $fecha = date("d/m/Y");
+
+    if ($pos >= 0) {
+        $aTareas[$pos] = array(
+            "fecha" => $aTareas[$pos]["fecha"], //Recupera la fecha anterior
+            "prioridad" => $prioridad,
+            "usuario" => $usuario,
+            "estado" => $estado,
+            "titulo" => $titulo,
+            "descripcion" => $descripcion,
+        );
+    } else {
+        //Sino es una nueva tarea
+        //Almaceno los datos en el array aTareas
+        $aTareas[] = array(
+            "fecha" => date("d/m/Y"),
+            "prioridad" => $prioridad,
+            "usuario" => $usuario,
+            "estado" => $estado,
+            "titulo" => $titulo,
+            "descripcion" => $descripcion,
+        );
+    }
+
+    //convertir el array de clientes a jsonClientes
+    $jsonTareas = json_encode($aTareas);
+    //almacenar jsonClientes en el "archivo.txt"
+    file_put_contents("tareas.txt", $jsonTareas);
+}
+
+if(isset($_GET["do"]) && $_GET["do"] == "eliminar"){
+    $pos = $_GET["pos"];
+    unset($aTareas[$pos]);
+    //convertir el array en json
+    $jsonTareas = json_encode($aTareas);
+    //almacenar el json en el archivo
+    file_put_contents("tareas.txt", $jsonTareas);
+    header("Location: index.php");
+}
 
 
 ?>
@@ -31,28 +88,28 @@ error_reporting(E_ALL);
                     <label for="lstPrioridad">Prioridad:</label><br>
                     <select name="lstPrioridad" id="lstPrioridad" class="form-control">
                         <option value="" disabled selected>Seleccionar</option>
-                        <option value="alta">Alta</option>
-                        <option value="media">Media</option>
-                        <option value="baja">Baja</option>
+                        <option value="Alta">Alta</option>
+                        <option value="Media">Media</option>
+                        <option value="Baja">Baja</option>
                     </select>
             </div>
             <div class="col-4">
                 <label for="lstUsuario">Usuario:</label><br>
                 <select name="lstUsuario" id="lstUsuario" class="form-control">
                     <option value="" disabled selected>Seleccionar</option>
-                    <option value="ana">Ana</option>
-                    <option value="bernabe">Bernabé</option>
-                    <option value="daniela">Daniela</option>
+                    <option value="Ana">Ana</option>
+                    <option value="Bernabe">Bernabé</option>
+                    <option value="Daniela">Daniela</option>
                 </select>
             </div>
             <div class="col-4">
                 <label for="lstEstado">Estado:</label><br>
                 <select name="lstEstado" id="lstEstado" class="form-control">
                     <option value="" disabled selected>Seleccionar</option>
-                    <option value="sinAsignar">Sin asignar</option>
-                    <option value="asignado">Asignado</option>
-                    <option value="enProceso">En proceso</option>
-                    <option value="terminado">Terminado</option>
+                    <option value="Sin asignar">Sin asignar</option>
+                    <option value="Asignado">Asignado</option>
+                    <option value="En proceso">En proceso</option>
+                    <option value="Terminado">Terminado</option>
                 </select>
             </div>
         </div>
@@ -60,17 +117,17 @@ error_reporting(E_ALL);
             <div class="col-12">
 
                 <label for="txtTitulo">Título:</label>
-                <input type="text" name="txtTitulo" id="txtTitulo" class="form-control">
+                <input type="text" name="txtTitulo" id="txtTitulo" class="form-control" value="<?php echo isset($aTareas[$pos])? $aTareas[$pos] : "";?>">
             </div>
         </div>
         <div class="row">
             <div class="col-12 pb-4">
                 <label for="txtDescripcion">Descripción:</label>
-                <input type="txtDescripción" name="txtDescripción" id="txtDescripción" class="form-control">
+                <input type="txtDescripcion" name="txtDescripcion" id="txtDescripcion" class="form-control" value="<?php echo isset ($aTareas[$pos])? $aTareas[$pos] : "";?>">
                 <div class="row">
                     <div class="col-6 offset-5 pt-4">
                         <button type="submit" class="btn btn-primary">ENVIAR</button>
-                        <button type="submit" class="btn btn-secondary">CANCELAR</button>
+                        <a href="index.php" class="btn btn-secondary">CANCELAR</a>
                     </div>
                 </div>
                 </form>
@@ -92,15 +149,20 @@ error_reporting(E_ALL);
                         </tr>
                     </thead>
                     <tbody>
+                        <?php foreach ($aTareas as $pos => $tarea): ?>
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td><?php echo $pos; ?></td>
+                            <td><?php echo $tarea["fecha"];?></td>
+                            <td><?php echo $tarea["titulo"];?></td>
+                            <td><?php echo $tarea["prioridad"];?></td>
+                            <td><?php echo $tarea["usuario"];?></td>
+                            <td><?php echo $tarea["estado"];?></td>
+                            <td>
+                                <a href="index.php?pos=<?php echo $pos; ?>&do=editar" class="btn btn-secondary"><i class="bi bi-pencil-square"></i></a>&nbsp;
+                                <a href="index.php?pos=<?php echo $pos; ?>&do=eliminar" class="btn btn-danger"><i class="bi bi-trash"></i></a>
+                            </td>
                         </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
