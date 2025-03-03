@@ -20,8 +20,6 @@ if (file_exists("invitados.txt")) {
 if ($_POST) {
     $dni = $_POST["txtDni"];
     $vip = $_POST["txtVip"];
-    $aMensaje = array("texto" => "¡Bienvenid@ a la fiesta!", "estado" => "success");
-    $aRechazado = array("texto" => "Usted no se encuentra en la lista de invitados.", "estado" => "danger");
 }
 
 
@@ -55,21 +53,27 @@ if ($_POST) {
                 <div class="col-7">
                     <?php
                     if (isset($_POST["btnProcesar"]) && in_array($dni, $aInvitados)) : ?>
-                        <div class="alert alert-<?php echo $aMensaje["estado"];?>" role="alert">
-                            <?php echo $aMensaje["texto"]; ?>
+                        <div class="alert alert-success" role="alert">
+                            <?php echo "¡Bienvenid@ a la fiesta!"; ?>
                         </div>
                     <?php endif; ?>
                     <?php
                     if (isset($_POST["btnProcesar"]) && in_array($dni, $aInvitados) != true) : ?>
-                        <div class="alert alert-<?php echo $aRechazado["estado"];?>" role="alert">
-                            <?php echo $aRechazado["texto"]; ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo "No se encuentra en la lista de invitados."; ?>
                         </div>
                     <?php endif; ?>
                     
                     <?php
-                    if(isset($_POST["btnVip"]) && $_POST["btnVip"] == "verde") : ?>
+                    if(isset($_POST["btnVip"]) && $vip == "verde") : ?>
                         <div class="alert alert-success" role="alert">
                             <?php echo "Su código de acceso es " . rand(1000, 9999); ?>
+                        </div>
+                    <?php endif; ?> 
+                    <?php
+                    if(isset($_POST["btnVip"]) && $vip != "verde") : ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo "Usted no tiene pase VIP."; ?>
                         </div>
                     <?php endif; ?> 
                 </div>
