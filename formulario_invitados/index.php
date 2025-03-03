@@ -3,6 +3,37 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+
+isset($_POST["txtVip"]) ? $_POST["txtVip"] : $_POST["txtVip"] = "";
+isset($_POST["txtDni"]) ? $_POST["txtDni"] : $_POST["txtDni"] = "";
+
+if (file_exists("invitados.txt")) {
+    //leemos el archivo y almacenamos el contenido en jsonInvitados
+    $jsonInvitados = file_get_contents("invitados.txt");
+    //convertimos el json en un array llamado aInvitados
+    $aInvitados = json_decode($jsonInvitados, true);
+} else {
+    $aInvitados = array();
+}
+
+if($_POST){
+    $dni = $_POST["txtDni"];
+    $vip = $_POST["txtVip"];
+    $bienvenido = "Bienvenid@ a la fiesta!";
+    $rechazado = "Usted no se encuentra en la lista de invitados.";
+
+    if(isset($_POST["btnProcesar"])){
+        //si el dni ingresado se encuentra en la lista se mostrará un $mensaje de bienvenida.
+            echo $bienvenido;
+        //si no un mensaje de No se encuentra en la lista de invitados.
+    } else {
+        echo $rechazado;
+    }
+
+}
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -30,15 +61,15 @@ error_reporting(E_ALL);
                 <form action="" method="post">
                     <label for="txtDni" class="pb-2">Ingrese el DNI:</label>
                     <input type="text" name="txtDni" id="txtDni" class="form-control">
-                    <button type="submit" class="btn btn-primary mt-3">Verificar invitado</button>
+                    <button type="submit" name="btnProcesar" class="btn btn-primary mt-3">Verificar invitado</button>
             </div>
         </div>
         <div class="row">
             <div class="col-7 py-3">
                 <form action="" method="post">
-                    <label for="txtDni" class="pb-2">Ingrese el código secreto para el pase VIP:</label>
-                    <input type="text" name="txtDni" id="txtDni" class="form-control">
-                    <button type="submit" class="btn btn-primary mt-3">Verificar código</button>
+                    <label for="txtVip" class="pb-2">Ingrese el código secreto para el pase VIP:</label>
+                    <input type="text" name="txtVip" id="txtVip" class="form-control">
+                    <button type="submit" name="btnVip" class="btn btn-primary mt-3">Verificar código</button>
             </div>
         </div>
         </form>
