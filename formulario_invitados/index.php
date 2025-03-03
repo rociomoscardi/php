@@ -4,32 +4,24 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 
-isset($_POST["txtVip"]) ? $_POST["txtVip"] : $_POST["txtVip"] = "";
-isset($_POST["txtDni"]) ? $_POST["txtDni"] : $_POST["txtDni"] = "";
+isset($_POST["txtVip"]) ? $_POST["txtVip"] : "";
+isset($_POST["txtDni"]) ? $_POST["txtDni"] : "";
+isset($_POST["btnProcesar"]) ? $_POST["btnProcesar"] : "";
 
 if (file_exists("invitados.txt")) {
-    //leemos el archivo y almacenamos el contenido en jsonInvitados
-    $jsonInvitados = file_get_contents("invitados.txt");
-    //convertimos el json en un array llamado aInvitados
-    $aInvitados = json_decode($jsonInvitados, true);
+    $archivo = fopen("invitados.txt", "r");
+    $aInvitados = fgetcsv($archivo, 0, ",");
+    //print_r($aInvitados);
+    //exit;
 } else {
     $aInvitados = array();
 }
 
-if($_POST){
+if ($_POST) {
     $dni = $_POST["txtDni"];
     $vip = $_POST["txtVip"];
-    $bienvenido = "Bienvenid@ a la fiesta!";
-    $rechazado = "Usted no se encuentra en la lista de invitados.";
-
-    if(isset($_POST["btnProcesar"])){
-        //si el dni ingresado se encuentra en la lista se mostrará un $mensaje de bienvenida.
-            echo $bienvenido;
-        //si no un mensaje de No se encuentra en la lista de invitados.
-    } else {
-        echo $rechazado;
-    }
-
+    $aMensaje = array("texto" => "¡Bienvenid@ a la fiesta!", "estado" => "success");
+    $aRechazado = array("texto" => "Usted no se encuentra en la lista de invitados.", "estado" => "danger");
 }
 
 
@@ -38,12 +30,14 @@ if($_POST){
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de invitados</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
+
 <body>
     <main class="container">
         <div class="row">
@@ -52,8 +46,33 @@ if($_POST){
             </div>
         </div>
         <div class="row">
-            <div class="col-12">
+            <div class="col-12 pb-3">
                 Complete el siguiente formulario:
+            </div>
+        </div>
+        <div>
+            <div class="row">
+                <div class="col-7">
+                    <?php
+                    if (isset($_POST["btnProcesar"]) && in_array($dni, $aInvitados)) : ?>
+                        <div class="alert alert-<?php echo $aMensaje["estado"];?>" role="alert">
+                            <?php echo $aMensaje["texto"]; ?>
+                        </div>
+                    <?php endif; ?>
+                    <?php
+                    if (isset($_POST["btnProcesar"]) && in_array($dni, $aInvitados) != true) : ?>
+                        <div class="alert alert-<?php echo $aRechazado["estado"];?>" role="alert">
+                            <?php echo $aRechazado["texto"]; ?>
+                        </div>
+                    <?php endif; ?>
+                    
+                    <?php
+                    if(isset($_POST["btnVip"]) && $_POST["btnVip"] == "verde") : ?>
+                        <div class="alert alert-success" role="alert">
+                            <?php echo "Su código de acceso es " . rand(1000, 9999); ?>
+                        </div>
+                    <?php endif; ?> 
+                </div>
             </div>
         </div>
         <div class="row">
@@ -75,4 +94,5 @@ if($_POST){
         </form>
     </main>
 </body>
+
 </html>
