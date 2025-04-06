@@ -1,6 +1,8 @@
 <?php
 
-session_start();
+if(!isset($_SESSION["nombre"])){ //el ! es para preguntar si es falso.
+  header("Location: login.php");
+}
 
 if ($_POST) {
   if (isset($_POST["btnCerrar"])) {
