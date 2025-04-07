@@ -117,7 +117,11 @@ class Venta {
             $this->idventa = $fila["idventa"];
             $this->fk_idcliente = $fila["fk_idcliente"];
             $this->fk_idproducto = $fila["fk_idproducto"];
-            $this->fecha = $fila["fecha"];
+            if(isset($fila["fecha"])){
+                $this->fecha = $fila["fecha"];
+            } else {
+                $this->fecha = "";
+            }
             $this->cantidad = $fila["cantidad"];
             $this->preciounitario = $fila["preciounitario"];
             $this->total = $fila["total"];
@@ -148,7 +152,11 @@ class Venta {
                 $entidadAux->idventa = $fila["idventa"];
                 $entidadAux->fk_idcliente = $fila["fk_idcliente"];
                 $entidadAux->fk_idproducto = $fila["fk_idproducto"];
-                $entidadAux->fecha = $fila["fecha"];
+                if(isset($fila["fecha"])){
+                    $entidadAux->fecha = $fila["fecha"];
+                } else {
+                    $this->fecha = "";
+                }
                 $entidadAux->cantidad = $fila["cantidad"];
                 $entidadAux->preciounitario = $fila["preciounitario"];
                 $entidadAux->total = $fila["total"];
