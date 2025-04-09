@@ -96,8 +96,8 @@ include_once("header.php");
             <input type="text" required="" class="form-control" name="txtNombre" id="txtNombre" value="<?php echo $producto->nombre; ?>">
         </div>
         <div class="col-12 col-sm-6 form-group">
-            <label for="lstProducto">Tipo de producto:</label>
-            <select class="form-control selectpicker" name="lstProducto" id="lstProducto" data-live-search="true">
+            <label for="lstTipoProducto">Tipo de producto:</label>
+            <select class="form-control selectpicker" name="lstTipoProducto" id="lstTipoProducto" data-live-search="true">
                 <option selected="" disabled="">Seleccionar</option>
                 <?php foreach ($aTipoProductos as $tipoProducto) : ?>
                     <?php if ($producto->fk_idtipoproducto == $tipoProducto->idtipoproducto) : ?>
@@ -121,7 +121,7 @@ include_once("header.php");
     </div>
     <div class="row">
         <div class="col-12">
-            <label for="txtDescripción">Descripción:</label>
+            <label for="txtDescripcion">Descripción:</label>
             <textarea name="txtDescripcion" id="txtDescripcion"><?php echo $producto->descripcion; ?></textarea>
         </div>
     </div>
