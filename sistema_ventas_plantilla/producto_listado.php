@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 
 
 include_once("config.php");
-include_once "entidades/tipoproducto.php";
+include_once "entidades/producto.php";
 
 
 $producto = new Producto();
@@ -48,3 +48,5 @@ include_once("header.php");
         </div>
     </div>
 </div>
+</div>
+<?php include_once("footer.php"); ?>
