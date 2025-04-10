@@ -29,7 +29,6 @@ if($_POST){
     }
 }
 
-//para editar:
 if(isset($_GET["id"]) && $_GET["id"] > 0){
     $tipoProducto->cargarFormulario($_REQUEST);
     $tipoProducto->obtenerPorId();

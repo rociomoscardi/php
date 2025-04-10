@@ -3,6 +3,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+$pg = "Productos";
 
 include_once("config.php");
 include_once "entidades/producto.php";
@@ -12,46 +13,54 @@ $producto = new Producto();
 
 if ($_POST) {
     if (isset($_POST["btnGuardar"])) {
+        $nombreImagen = "";
+        $imagenAnterior = "";
         $producto->cargarFormulario($_REQUEST);
 
+        //si id es mayor que 0 es porque estoy ACTUALIZANDO
         if (isset($_GET["id"]) && $_GET["id"] > 0) {
             if ($_FILES["archivo"]["error"] === UPLOAD_ERR_OK) {
                 $nombreAleatorio = date("Ymdhmsi");
                 $archivo_tmp = $_FILES["archivo"]["tmp_name"]; //se define la url del archivo temporal
                 $extension = strtolower(pathinfo($_FILES["archivo"]["name"], PATHINFO_EXTENSION));
+                $nombreImagen = "$nombreAleatorio.$extension";
                 if ($extension == "jpg" || $extension == "jpeg" || $extension == "png") {
-                    $nombreImagen = "$nombreAleatorio.$extension";
+                    //si viene una nueva imagen elimino la anterior.
+                    $productoAnt = new Producto();
+                    $productoAnt->idproducto = $_GET["id"];
+                    $productoAnt->obtenerPorId();
+                    if (file_exists("files/$productoAnt->imagen") && is_file("files/" . $productoAnt->imagen)) {
+                        unlink("files/$productoAnt->imagen");
+                    }
+                    //subo la imagen nueva.
                     move_uploaded_file($archivo_tmp, "files/$nombreImagen");
                 }
                 $producto->imagen = $nombreImagen;
             } else {
+                //para que se mantenga la anterior si no viene una imagen nueva.
                 $productoAnt = new Producto();
                 $productoAnt->idproducto = $_GET["id"];
                 $productoAnt->obtenerPorId();
                 $producto->imagen = $productoAnt->imagen;
+                $productoAnt->imagen = $imagenAnterior;
             }
 
             $producto->actualizar();
             $msg["texto"] = "Actualizado correctamente.";
             $msg["codigo"] = "alert-success";
         } else {
-            if ($_FILES["archivo"]["error"] === UPLOAD_ERR_OK) {
-            $nombreAleatorio = date("Ymdhmsi");
-            $archivo_tmp = $_FILES["archivo"]["tmp_name"]; //se define la url del archivo temporal
-            $extension = strtolower(pathinfo($_FILES["archivo"]["name"], PATHINFO_EXTENSION));
-            if ($extension == "jpg" || $extension == "jpeg" || $extension == "png") {
-                $nombreImagen = "$nombreAleatorio.$extension";
-                move_uploaded_file($archivo_tmp, "files/$nombreImagen");
-            }
+            //Es nuevo
             $producto->imagen = $nombreImagen;
-        }
-
             $producto->insertar();
             $msg["texto"] = "Insertado correctamente.";
             $msg["codigo"] = "alert-success";
         }
     } else if (isset($_POST["btnBorrar"])) {
         $producto->cargarFormulario($_REQUEST);
+        $producto->obtenerPorId();
+        if (file_exists("files/$producto->imagen")) {
+            unlink("files/$producto->imagen");
+        }
         $producto->eliminar();
         header("Location: producto_listado.php");
     }
@@ -112,11 +121,11 @@ include_once("header.php");
     <div class="row">
         <div class="col-12 col-sm-6 form-group">
             <label for="txtCantidad">Cantidad:</label>
-            <input type="number" required="" class="form-control" name="txtCantidad" id="txtCantidad" value="<?php echo $producto->cantidad; ?>">
+            <input type="number" required="" class="form-control" name="txtCantidad" id="txtCantidad" value="<?php echo $producto->cantidad ? $producto->cantidad : ""; ?>">
         </div>
         <div class="col-12 col-sm-6 form-group">
             <label for="txtPrecio">Precio:</label>
-            <input type="text" required="" class="form-control" placeholder="$0,00" name="txtPrecio" id="txtPrecio" value="<?php echo $producto->precio; ?>">
+            <input type="text" required="" class="form-control" placeholder="$0,00" name="txtPrecio" id="txtPrecio" value="<?php echo $producto->precio ? $producto->precio : ""; ?>">
         </div>
     </div>
     <div class="row">
@@ -131,7 +140,7 @@ include_once("header.php");
                 <label for="fileImagen">Imagen:</label>
             </div>
             <div class="col-12">
-                <input type="file" class="form-control-file" name="archivo" id="archivo" accept=".jpg, .jpeg, .png">
+                <input type="file" class="form-control-file" name="archivo" id="imagen" accept=".jpg, .jpeg, .png">
                 <?php if ($producto->imagen != "") : ?>
                     <img src="files/<?php echo $producto->imagen; ?>" class="img-thumbnail" alt="">
                 <?php endif; ?>
