@@ -82,8 +82,8 @@
         </a>
         <div id="collapseUsuario" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="usuario-formulario.php">Nuevo usuario</a>
-            <a class="collapse-item" href="usuario-listado.php">Listado de usuarios</a>
+            <a class="collapse-item" href="usuario_formulario.php">Nuevo usuario</a>
+            <a class="collapse-item" href="usuario_listado.php">Listado de usuarios</a>
           </div>
         </div>
       </li>

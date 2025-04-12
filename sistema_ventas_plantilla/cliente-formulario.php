@@ -150,6 +150,7 @@ include_once "header.php";
                             <label for="txtTelefono">Localidad:</label>
                             <select class="form-control" name="lstLocalidad" id="lstLocalidad" required>
                                 <option value="" disabled selected>Seleccionar</option>
+                                <option value="1">CABA</option>
                             </select>
                         </div>
                         <div class="col-12 form-group">

@@ -101,7 +101,9 @@ class Venta {
         $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
         $sql = "SELECT  idventa, 
                         fk_idcliente, 
+                        nombre_cliente,
                         fk_idproducto, 
+                        nombre_producto,
                         fecha, 
                         cantidad,
                         preciounitario,
@@ -128,6 +130,44 @@ class Venta {
         }
         $mysqli->close();
 
+    }
+
+    public function obtenerVentasPorCliente($idCliente){
+        $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
+        $sql = "SELECT  idventa, 
+                        fk_idcliente,
+                        fk_idproducto,
+                        fecha, 
+                        cantidad,
+                        preciounitario,
+                        total
+                FROM ventas 
+                WHERE fk_idcliente = " . $idCliente;
+        if (!$resultado = $mysqli->query($sql)) {
+            printf("Error en query: %s\n", $mysqli->error . " " . $sql);
+        }
+
+        $aResultado = array();
+        if($resultado){
+            //Convierte el resultado en un array asociativo
+            while($fila = $resultado->fetch_assoc()){
+                $entidadAux = new Venta();
+                $entidadAux->idventa = $fila["idventa"];
+                $entidadAux->fk_idcliente = $fila["fk_idcliente"];
+                $entidadAux->fk_idproducto = $fila["fk_idproducto"];
+                if(isset($fila["fecha"])){
+                    $entidadAux->fecha = $fila["fecha"];
+                } else {
+                    $this->fecha = "";
+                }
+                $entidadAux->cantidad = $fila["cantidad"];
+                $entidadAux->preciounitario = $fila["preciounitario"];
+                $entidadAux->total = $fila["total"];
+                $aResultado[] = $entidadAux;
+            }
+        }
+        $mysqli->close();
+        return $aResultado;
     }
     
     public function obtenerTodos(){
@@ -180,7 +220,9 @@ class Venta {
                     V.total  
                 FROM ventas V
                 INNER JOIN clientes C ON C.idcliente = V.fk_idcliente 
-                INNER JOIN productos P ON P.idproducto = V.fk_idproducto";
+                INNER JOIN productos P ON P.idproducto = V.fk_idproducto
+                ORDER BY V.fecha DESC";
+
         if (!$resultado = $mysqli->query($sql)) {
             printf("Error en query: %s\n", $mysqli->error . " " . $sql);
         }

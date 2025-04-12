@@ -129,7 +129,7 @@ class Usuario
         $mysqli->close();
     }
 
-    public function obtenerPorUsuario($usuario, $idusuario = "")
+    public function obtenerPorUsuario($nombreUsuario)
     {
         $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
         $sql = "SELECT idusuario,
@@ -139,7 +139,9 @@ class Usuario
                         apellido,
                         correo
                 FROM usuarios
-                WHERE usuario = '$usuario' AND idusuario <> '$idusuario'";
+                WHERE usuario = '$nombreUsuario'";
+                //($usuario, $idusuario = "") - esto es lo que estaba en el parametro.
+                //'$usuario' AND idusuario <> '$idusuario'";
 
         if (!$resultado = $mysqli->query($sql)) {
             printf("Error en query: %s\n", $mysqli->error . " " . $sql);

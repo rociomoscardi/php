@@ -6,6 +6,7 @@ error_reporting(E_ALL);
 
 include_once("config.php");
 include_once "entidades/tipoproducto.php";
+include_once "entidades/producto.php";
 
 $tipoProducto = new TipoProducto();
 
@@ -24,8 +25,15 @@ if($_POST){
         }
     } else if(isset($_POST["btnBorrar"])){
         $tipoProducto->cargarFormulario($_REQUEST);
-        $tipoProducto->eliminar();
+        //busco aquellos productos que tengan este tipo de producto:
+        $producto = new Producto();
+        if($producto->obtenerPorTipo($tipoProducto->idtipoproducto)){ //le asigno a producto un tipo de producto
+            $msg["texto"] = "No se puede eliminar un tipo de producto con productos asociados.";
+            $msg["codigo"] = "alert-danger";
+        } else {
+            $tipoProducto->eliminar();
         header("Location: tipoproducto_listado.php");
+        }
     }
 }
 
