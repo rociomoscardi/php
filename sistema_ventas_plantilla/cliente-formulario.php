@@ -10,7 +10,7 @@ include_once "entidades/localidad.php";
 $cliente = new Cliente();
 $cliente->cargarFormulario($_REQUEST);
 
-$pg = "Listado de clientes";
+$pg = "Nuevo cliente";
 
 if ($_POST) {
     if (isset($_POST["btnGuardar"])) {

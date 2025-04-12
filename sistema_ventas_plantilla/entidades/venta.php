@@ -250,8 +250,9 @@ class Venta {
    
     public function obtenerFacturacionMensual($mesActual, $anioActual){
         $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
-        $sql = "SELECT SUM(total) AS cantidad FROM ventas 
-        WHERE MONTH(fecha) = '$mesActual' AND YEAR(fecha) = '$anioActual';";
+        $sql = "SELECT SUM(total) AS cantidad 
+                FROM ventas 
+                WHERE MONTH(fecha) = '$mesActual' AND YEAR(fecha) = '$anioActual';";
 
         if (!$resultado = $mysqli->query($sql)) {
             printf("Error en query: %s\n", $mysqli->error . " " . $sql);
@@ -267,8 +268,9 @@ class Venta {
     }
     public function obtenerFacturacionAnual($anioActual){
         $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
-        $sql = "SELECT SUM(total) AS cantidad FROM ventas 
-        WHERE YEAR(fecha) = '$anioActual';";
+        $sql = "SELECT SUM(total) AS cantidad 
+                FROM ventas 
+                WHERE YEAR(fecha) = '$anioActual';";
 
         if (!$resultado = $mysqli->query($sql)) {
             printf("Error en query: %s\n", $mysqli->error . " " . $sql);
