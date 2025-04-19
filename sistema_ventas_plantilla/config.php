@@ -15,7 +15,7 @@ class Config {
     const BBDD_PORT = "3306"; //3306
     const BBDD_USUARIO = "root"; //root
     const BBDD_CLAVE = "";
-    const BBDD_NOMBRE = "abmventas1";
+    const BBDD_NOMBRE = "abmventas";
 
 }
 
