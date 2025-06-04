@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Persona</title>
+</head>
+
+<script>
+    let persona = {
+        nombre: "Nahuel Melioli",
+        edad: 23,
+        sexo: "M",
+        estado_civil: "Casado",
+        peliculas: ["El cielo sobre Berlín", "Europa", "Dos o tres cosas que yo sé de ella"],
+        comer: function (comida){
+            console.log("Está comiendo " + comida);
+        },
+        cumplirAnios: function (){
+            persona.edad++;
+        }
+    };
+
+    console.log(persona);
+    persona.comer("milanesa de pollo");
+    persona.cumplirAnios();
+    console.log(persona);
+</script>
+
+<body>
+    Este es un programa js.
+</body>
+</html>

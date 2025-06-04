@@ -20,9 +20,12 @@
 
     function actualizarPrecios(aArray, porcentaje) {
         let aResultado = new Array();
-        aArray.map(function (valor) {
-            return (valor + porcentaje);
-        });
+        aArray.forEach(function (producto) {
+            let nuevoPrecio = 0;
+            nuevoPrecio = producto[1] + (producto[1] * (porcentaje / 100));
+            producto[1] = nuevoPrecio;
+            aResultado.push(producto);
+        })
         return aResultado;
     }
 
@@ -40,11 +43,12 @@
                             <thead>
                                 <th>Producto</th>
                                 <th>Precio</th>
-                            </thead>
-                            <tbody>
-                                <td></td>
-                            </tbody>
-                        </table>
+                            </thead>`);
+                            aArray = actualizarPrecios(aArray, 10);
+                            aArray.forEach(function(value, index){
+                                document.write(`<tr><td>${value[0]}</td><td>$${value[1].toFixed(2)}</td></tr>`)
+                            });
+        document.write(`</table>
                     </div>    
                 </div>
             </main>
