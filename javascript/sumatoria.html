@@ -7,6 +7,9 @@
 </head>
 
 <script>
+    //Ejercicio 1 - Clase 43
+    console.log(("Ejercicio 1"));
+
     const aValores = ["150.00", "200.30", 500, 99.80];
 
     function sumatoria(aValores){
@@ -18,10 +21,57 @@
     }
 
     console.log(sumatoria(aValores));
-    
+
+    function potencia(numero, potencia){
+        $resultado = Math.pow(numero, potencia);
+        return $resultado;
+    }
+    console.log(potencia(2, 5));
+    console.log(potencia(2, 3));
+
+    //Ejercicio 2
+    console.log(("Ejercicio 2"));
+
+    /*const cuadrado = function(num){
+        $resultado1 = num * num;
+        return $resultado1;
+    }*/
+
+    const cuadrado = function(num){
+        $resultado1 = Math.pow(num, 2);
+        return $resultado1;
+    }
+
+    console.log(cuadrado(2));
+    console.log(cuadrado(3));
+    console.log(cuadrado(5));
+
+    //Ejercicio 3
+    console.log(("Ejercicio 3"));
+
+    function asignacion(valor){
+        let numero = valor;
+        return numero;
+    }
+
+    numero = asignacion(5);
+    console.log(numero);
+
+    //Ejercicio 4
+    console.log(("Ejercicio 4"));
+
+    function miSandwich(ing1, ing2, functionParametro){
+        console.log("Estoy comiendo un sandwich de " + ing1 + " y " + ing2 + ".");
+        functionParametro();
+    }
+
+    function termine(){
+        console.log("Terminé de comer mi sandwich.");
+    }
+
+    miSandwich("salame", "queso", termine);
 </script>
 
 <body>
-    Ejercicio Sumatoria
 </body>
 </html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Múltiplos</title>
+</head>
+
+<script>
+    aValores = [4, 5, 6, 7, 8, 14, 21, 35];
+
+    aValores.forEach(function (numero) {
+        if ((numero % 7) == 0) {
+            document.write(`${numero} ` + `<br>`);
+        }
+    });
+
+    function imprimirListado(aArray) {
+        aArray.forEach(function (numero){
+            document.write(`${numero} ` + `<br>`);
+        }
+    )};
+
+    imprimirListado(aValores);
+
+    resultado = aValores.filter(function(valor){
+        return ((valor % 7) == 0);
+    });
+
+    imprimirListado(resultado);
+
+
+    resultado1 = aValores.map(function(valor){
+        return Math.sqrt(valor);
+    });
+
+    imprimirListado(resultado1);
+</script>
+
+<body>
+
+</body>
+
+</html>
