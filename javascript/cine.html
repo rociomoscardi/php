@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cine Multiplex</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+</head>
+
+<script>
+    let espectador1 = {
+        nombre: "Nahuel Melioli",
+        dni: 43532093,
+    };
+
+    let espectador2 = {
+        nombre: "Rocío Moscardi",
+        dni: 44547606,
+    };
+    let espectador3 = {
+        nombre: "Silvana Micelli",
+        dni: 25695383,
+    };
+    let espectador4 = {
+        nombre: "Ana Valle",
+        dni: 44965821,
+    };
+    let espectador5 = {
+        nombre: "Camila Perez",
+        dni: 41587236,
+    };
+
+    let pelicula1 = {
+        titulo: "Karate Kid",
+        importeEntrada: 9000,
+    };
+
+    let pelicula2 = {
+        titulo: "Misión Imposible",
+        importeEntrada: 8500,
+    };
+
+    let sala1 = {
+        nombre: "Sala I",
+        pelicula: pelicula2,
+        aEspectadores: [espectador1, espectador2],
+    };
+
+    let sala2 = {
+        nombre: "Sala II",
+        pelicula: pelicula1,
+        aEspectadores: [espectador3, espectador4, espectador5],
+    };
+
+    let cine1 = {
+        nombre: "Cine Multiplex",
+        domicilio: "Olazáblas 4345",
+        aSalas: [sala1, sala2],
+        imprimirEstadisticas: function () {
+            document.write(`
+            <main class='container'>
+                <div class='row'>
+                    <div class='col-12 text-center py-5'>
+                        <h1>CINE MULTIPLEX</h1>
+                    </div>    
+                </div>
+                <div class='row'>
+                    <div class='col-12'>
+                        <table class='table table-hover border'>
+                            <thead>
+                                <th>Sala</th>
+                                <th>Película</th>
+                                <th>Espectadores</th>
+                                <th>Ganancias</th>
+                            </thead>`);
+                                for (let sala of this.aSalas) {
+                                    document.write(`<tr>
+                                        <td>${sala.nombre}</td>
+                                        <td>${sala.pelicula.titulo}</td>
+                                        <td>${sala.aEspectadores.length}</td>
+                                        <td></td>
+                                        </tr>`);
+                                }
+            document.write(`</table>
+                    </div>    
+                </div>
+            </main>
+        `);
+        }
+    };
+
+    cine1.imprimirEstadisticas();
+
+</script>
+
+<body>
+
+</body>
+
+</html>
