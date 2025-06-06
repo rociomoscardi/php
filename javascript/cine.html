@@ -51,11 +51,11 @@
     let sala2 = {
         nombre: "Sala II",
         pelicula: pelicula1,
-        aEspectadores: [espectador3, espectador4, espectador5],
+        aEspectadores: [espectador2, espectador3, espectador4, espectador5],
     };
 
     let cine1 = {
-        nombre: "Cine Multiplex",
+        nombre: "MULTIPLEX",
         domicilio: "Olazáblas 4345",
         aSalas: [sala1, sala2],
         imprimirEstadisticas: function () {
@@ -63,7 +63,7 @@
             <main class='container'>
                 <div class='row'>
                     <div class='col-12 text-center py-5'>
-                        <h1>CINE MULTIPLEX</h1>
+                        <h1>CINE ${cine1.nombre}</h1>
                     </div>    
                 </div>
                 <div class='row'>
@@ -80,7 +80,7 @@
                                         <td>${sala.nombre}</td>
                                         <td>${sala.pelicula.titulo}</td>
                                         <td>${sala.aEspectadores.length}</td>
-                                        <td></td>
+                                        <td>${sala.aEspectadores.length * sala.pelicula.importeEntrada}</td>
                                         </tr>`);
                                 }
             document.write(`</table>
